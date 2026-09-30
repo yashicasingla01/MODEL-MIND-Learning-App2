@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "MODEL MIND"
+description = "A personalized tutoring and adaptive learning app that combines course PDFs, slides, and lectures into a cited study workspace with grounded AI answers, quizzes, mastery tracking, and personalized next steps."
+version = "1.0.0"
+id = "artifacts/model-mind"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19219
+
+[services.development]
+run = "pnpm --filter @workspace/model-mind run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/model-mind", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/model-mind/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19219"
+BASE_PATH = "/"
